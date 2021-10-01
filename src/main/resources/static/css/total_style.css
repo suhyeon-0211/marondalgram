@@ -1,0 +1,12 @@
+@charset "UTF-8";
+header {background-color: #A4A4A4; height: 100px;}
+header h1 {color: #F2F2F2;}
+header .logo {height:100px;}
+header .login-info {height:100px;}
+
+.contents {height: auto;}
+.contents #sectionWrap {padding-top: 100px; padding-bottom: 100px;}
+.contents .post {margin-top: 50px;}
+
+footer {height: 100px; background-color: #A4A4A4;}
+footer h3 {color: #F2F2F2;}

@@ -11,7 +11,7 @@
 	<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-	<link rel="stylesheet" href="/static/css/sign_in_style.css" style="text/css">
+	<link rel="stylesheet" href="/static/css/total_style.css" style="text/css">
 </head>
 <body>
 	<div class="wrap">
@@ -19,7 +19,7 @@
 			<h1 class="font-weight-bold pl-4">marondalgram</h1>
 		</header>
 		<section class="d-flex justify-content-center align-items-center">
-			<div>
+			<div id="sectionWrap">
 				<div class="input-group">
 					<div class="input-group-text">
 						<img src="/static/images/user.png" alt="user" width="30">

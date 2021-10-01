@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.marondalgram.user.dao.UserDAO">
+	<select id="existLoginId" resultType="boolean">
+		SELECT
+			count(1)
+		FROM
+			`user`
+		WHERE
+			`loginId` = #{loginId}
+	</select>
+	
+	<insert id="insertUser" parameterType="com.marondalgram.user.model.User">
+		INSERT INTO `user`
+		(
+			`loginId`
+			,`password`
+			,`name`
+			,`nickname`
+			,`email`
+		)
+		VALUES
+		(
+			#{loginId}
+			,#{password}
+			,#{name}
+			,#{nickname}
+			,#{email}
+		)
+	</insert>
+	<select id="selectUserByLoginIdAndPassword" parameterType="map" resultType="com.marondalgram.user.model.User">
+		SELECT
+			`id`
+			,`loginId`
+			,`password`
+			,`name`
+			,`nickname`
+			,`email`
+			,`profileImage`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`user`
+		WHERE
+			`loginId` = #{loginId} AND `password` = #{password}
+	</select>
+	
+</mapper>

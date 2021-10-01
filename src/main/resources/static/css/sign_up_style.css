@@ -1,9 +1,0 @@
-@charset "UTF-8";
-.wrap {margin: 0}
-header {background-color: #A4A4A4; height: 100px;}
-header h1 {color: #F2F2F2;}
-
-section {height: 700px;}
-
-footer {height: 100px; background-color: #A4A4A4;}
-footer h3 {color: #F2F2F2;}
