@@ -6,7 +6,7 @@ header .login-info {height:100px;}
 
 .contents {height: auto;}
 .contents #sectionWrap {padding-top: 100px; padding-bottom: 100px;}
-.contents .post {margin-top: 50px;}
+.contents .post {margin-top: 50px; max-width: 553.2px;}
 
 footer {height: 100px; background-color: #A4A4A4;}
 footer h3 {color: #F2F2F2;}

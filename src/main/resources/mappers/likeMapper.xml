@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.marondalgram.like.dao.LikeDAO">
+	<select id="selectCntOfPostLike" resultType="int">
+		SELECT
+			count(1)
+		FROM
+			`like`
+		WHERE
+			`postId` = ${postId}
+	</select>
+	
+	<select id="existLike" resultType="boolean" parameterType="map">
+		SELECT
+			count(1)
+		FROM
+			`like`
+		WHERE
+			`userId` = ${userId}
+			AND `postId` = ${postId}
+	</select>
+</mapper>

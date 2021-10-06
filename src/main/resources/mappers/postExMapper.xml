@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.marondalgram.postex.dao.PostExDAO">
+	<select id="selectPostList" resultType="com.marondalgram.postex.model.PostEx">
+		SELECT
+			`id`
+			,`userId`
+			,`userNickname`
+			,`content`
+			,`imagePath`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`post_ex`
+	</select>
+	
+	<insert id="insertPost" parameterType="map">
+		INSERT INTO `post_ex`
+		(
+			`userId`
+			,`userNickname`
+			,`content`
+			,`imagePath`
+			,`createdAt`
+			,`updatedAt`
+		)
+		VALUES
+		(
+			#{userId}
+			, #{userNickname}
+			, #{content}
+			, #{imagePath}
+			, NOW()
+			, NOW()
+		)
+	</insert>
+</mapper>
