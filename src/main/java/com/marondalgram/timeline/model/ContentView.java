@@ -3,7 +3,6 @@ package com.marondalgram.timeline.model;
 import java.util.List;
 
 import com.marondalgram.comment.model.Comment;
-import com.marondalgram.post.model.Post;
 import com.marondalgram.postex.model.PostEx;
 
 public class ContentView {

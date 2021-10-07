@@ -17,27 +17,38 @@
 		</div>
 		<c:forEach items="${contentViewList}" var="contentView">
 		<div class="post rounded border border-secondary">
+			<%-- 글의 헤더 --%>
 			<div class="d-flex justify-content-between align-items-center">
 				<div class="pl-3">
 					<strong>${contentView.post.userNickname}</strong>
 				</div>
 				<div class="pr-2">
-					<button type="button" class="btn btn-link p-0">
+					<button type="button" class="btn btn-link p-0 more-btn" data-target="#moreModal" data-post-id="${contentView.post.id}" data-login-user-id="${userId}" data-post-user-id="${contentView.post.userId}">
 						<img src="/static/images/more-icon.png" width="40" alt="moreIcon">
 					</button>
 				</div>
 			</div>
+			<%-- 이미지 부분 --%>
 			<div class="post_image d-flex justify-content-center">
-				<img src="${contentView.post.imagePath}" class="img-fluid" alt="postImage">
+				<c:if test="${not empty contentView.post.imagePath}">
+					<img src="${contentView.post.imagePath}" class="img-fluid" alt="postImage">
+				</c:if>
 			</div>
+			<%-- 좋아요 --%>
 			<div class="heart d-flex m-2 align-items-center">
 				<div class="pr-2 pb-1">
-					<button type="button" class="btn btn-link p-0">
+					<button type="button" class="btn btn-link p-0 likeToggleBtn">
+						<c:if test="${not contentView.like}">
 						<img src="/static/images/empty-heart-icon.png" width="20" alt="heartIcon">
+						</c:if>
+						<c:if test="${contentView.like}">
+						<img src="/static/images/filled-heart-icon.png" width="20" alt="heartIcon">
+						</c:if>
 					</button>
 				</div>
 				좋아요 ${contentView.likeCnt}개
 			</div>
+			<%-- 글의 내용 --%>
 			<div class="post_text m-2">
 				<strong>${contentView.post.userNickname}</strong>
 				${contentView.post.content}
@@ -45,6 +56,7 @@
 			<div class="comment border-bottom border-secondary pl-2">
 				<strong>댓글</strong>
 			</div>
+			<%-- 댓글 --%>
 			<div class="comment_list border-bottom border-secondary p-2">
 				<c:forEach items="${contentView.commentList}" var="comment">
 				<div class="text-lowercase">
@@ -53,15 +65,25 @@
 				</div>
 				</c:forEach>
 			</div>
+			<%-- 댓글 추가 --%>
 			<div class="add_comment">
 				<div class="input-group d-flex">
 					<input type="text" class="form-control border-0" id="comment" placeholder="댓글 달기">
-					<button type="button" class="btn border-0 btn-light">게시</button>
+					<button type="button" class="btn border-0 btn-light commentAddBtn" data-post-id="${contentView.post.id}">게시</button>
 				</div>
 			</div>
 		</div>
 		</c:forEach>
 	</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="moreModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+    	<a href="#" class="btn btn-dark del-post">삭제하기</a>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -129,7 +151,71 @@
 				}
 				
 			});
+		});
+		
+		$('.commentAddBtn').on('click', function() {
+			let comment = $(this).siblings('input').val();
+			console.log(comment);
+			if (comment == '') {
+				alert('댓글을 입력하세요');
+				return;
+			}
+			let postId = $(this).data('post-id');
 			
+			$.ajax({
+				type : 'post'
+				, url : '/comment/create'
+				, data : {'content': comment, 'postId' : postId}
+				, success : function(data) {
+					if (data.result == "success") {
+						location.reload(true);
+					} else if (data.result == "notLogin") {
+						alert("로그인하고 댓글을 추가해주세요");
+					} else {
+						alert('댓글을 추가할 수 없습니다.');
+					}
+				}
+				, error : function(e) {
+					alert('댓글을 추가할 수 없습니다. 관리자에게 문의해주세요');
+				}
+			});
+		});
+		
+		// ... 버튼 클릭 (삭제를 하기 위해)
+		$('.more-btn').on('click', function() {
+			let loginUserId = $(this).data('login-user-id');
+			let postUserId = $(this).data('post-user-id');
+			if (loginUserId != postUserId) {
+				alert('자신의 게시물만 삭제할 수 있습니다.');
+				return;
+			}
+			// postId를 가져온다 => 지금 클릭된 태그의 postId
+			let postId = $(this).data('post-id');
+			// modal에 포스트 아이디를 넣어준다.
+			$('#moreModal').data('post-id', postId);
+			$('#moreModal').modal('toggle');
+		});
+		
+		// 모달안에 있는 삭제하기 클릭
+		$('#moreModal .del-post').on('click', function(e) {
+			e.preventDefault();
+			let postId = $('#moreModal').data('post-id');
+			
+			$.ajax({
+				type : 'delete'
+				, url : '/post/delete'
+				, data : {'postId' : postId}
+				, success : function(data) {
+					if (data.result == 'success') {
+						location.reload(true);
+					} else {
+						alert('글이 삭제되지 않았습니다.');
+					}
+				}
+				, error : function(e) {
+					alert('글이 삭제되지 않았습니다. 관리자에게 문의해주세요');
+				}
+			})
 		});
 	});
 </script>

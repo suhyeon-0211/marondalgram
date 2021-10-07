@@ -33,8 +33,11 @@ public class ContentBO {
 			// postEx 등록
 			contentView.setPost(post);
 			List<Comment> commentList = commentBO.getCommentsByPostId(post.getId());
+			// 댓글 리스트 등록
 			contentView.setCommentList(commentList);
+			// 내가 한 좋아요 등록
 			contentView.setLike(likeBO.existLike(post.getUserId(), post.getId()));
+			// 좋아요 갯수
 			contentView.setLikeCnt(likeBO.getCntOfPostLike(post.getId()));
 			contentViewList.add(contentView);
 		}

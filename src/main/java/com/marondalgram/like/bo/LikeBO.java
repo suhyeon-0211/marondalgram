@@ -18,4 +18,8 @@ public class LikeBO {
 	public boolean existLike(int userId, int postId) {
 		return likeDAO.existLike(userId, postId);
 	}
+	
+	public void deleteLike(int postId) {
+		likeDAO.deleteLike(postId);
+	}
 }

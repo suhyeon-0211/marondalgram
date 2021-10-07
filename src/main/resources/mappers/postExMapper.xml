@@ -35,4 +35,27 @@
 			, NOW()
 		)
 	</insert>
+	
+	<select id="getPost" resultType="com.marondalgram.postex.model.PostEx">
+		SELECT
+			`id`
+			,`userId`
+			,`userNickname`
+			,`content`
+			,`imagePath`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`post_ex`
+		WHERE
+			`id` = ${postId}
+	</select>
+	
+	<delete id="deletePost">
+		DELETE
+		FROM
+			`post_ex`
+		WHERE
+			`id` = ${postId}
+	</delete>
 </mapper>

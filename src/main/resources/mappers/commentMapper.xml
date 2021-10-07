@@ -16,4 +16,33 @@
 		WHERE
 			`postId` = ${postId}
 	</select>
+	
+	<insert id="insertCommentByPostId" parameterType="map">
+		INSERT INTO `comment`
+		(
+			`postId`
+			,`userId`
+			,`userNickname`
+			,`content`
+			,`createdAt`
+			,`updatedAt`
+		)
+		VALUES
+		(
+			#{postId}
+			,#{userId}
+			,#{userNickname}
+			,#{content}
+			,NOW()
+			,NOW()
+		)
+	</insert>
+	
+	<delete id="deleteComment">
+		DELETE
+		FROM
+			`comment`
+		WHERE
+			`postId` = ${postId}
+	</delete>
 </mapper>

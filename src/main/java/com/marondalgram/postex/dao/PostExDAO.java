@@ -10,9 +10,11 @@ import com.marondalgram.postex.model.PostEx;
 @Repository
 public interface PostExDAO {
 	public List<PostEx> selectPostList();
+	public PostEx getPost(int postId);
 	public int insertPost(
 			@Param("userId") int userId, 
 			@Param("userNickname") String userNickname,
 			@Param("content") String content,
 			@Param("imagePath") String imagePath);
+	public void deletePost(int postId);
 }

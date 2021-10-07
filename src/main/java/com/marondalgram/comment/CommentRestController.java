@@ -1,0 +1,43 @@
+package com.marondalgram.comment;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.marondalgram.comment.bo.CommentBO;
+
+@RequestMapping("/comment")
+@RestController
+public class CommentRestController {
+
+	@Autowired
+	private CommentBO commentBO;
+	
+	@PostMapping("/create")
+	public Map<String, Object> commentCreate(
+			@RequestParam("content") String content,
+			@RequestParam("postId") int postId,
+			HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		Integer userId = (Integer) session.getAttribute("userId");
+		String userNickname = (String) session.getAttribute("userNickname");
+		
+		Map<String, Object> result = new HashMap<>();
+		result.put("result", "fail");
+		if (userId == null) {
+			result.put("result", "notLogin");
+			return result;
+		}
+		commentBO.addCommentByPostId(postId, userId, userNickname, content);
+		result.put("result", "success");
+		return result;
+	}
+}

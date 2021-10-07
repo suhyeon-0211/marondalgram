@@ -17,4 +17,12 @@ public class CommentBO {
 	public List<Comment> getCommentsByPostId(int postId) {
 		return commentDAO.selectCommentsByPostId(postId);
 	}
+	
+	public void addCommentByPostId(int postId, int userId, String userNickname, String content) {
+		 commentDAO.insertCommentByPostId(postId, userId, userNickname, content);
+	}
+	
+	public void deleteComment(int postId) {
+		commentDAO.deleteComment(postId);
+	}
 }

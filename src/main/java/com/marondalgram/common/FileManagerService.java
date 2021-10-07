@@ -40,4 +40,22 @@ public class FileManagerService {
 			// 예) http://localhost/images/test_16*****/apple.png
 			return "/images/" + directoryName + file.getOriginalFilename();
 		}
+		
+		public void deleteFile(String imagePath) throws IOException {
+			// imagePath : /images/test_16*****/apple.png
+			// 실제 경로 : C:\\Users\\kitew\\박수현_java\\6.spring_project1\\ex\\images/
+			// 실제경로 + imagePath => images 겹치기 때문에 한쪽(imagePath) /images/를 제거해줌
+			Path path = Paths.get(FILE_UPLOAD_PATH + imagePath.replace("/images/", ""));
+			if (Files.exists(path)) {
+				// 파일이 존재하면 삭제한다.
+				Files.delete(path);
+			}
+			
+			// 디렉토리 삭제
+			path = path.getParent();
+			if (Files.exists(path)) {
+				// 디렉토리가 존재하면 삭제
+				Files.delete(path);
+			}
+		}
 }
