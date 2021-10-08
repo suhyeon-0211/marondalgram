@@ -25,7 +25,7 @@ public class ContentBO {
 	@Autowired
 	private LikeBO likeBO;
 	
-	public List<ContentView> generateContentViewList() {
+	public List<ContentView> generateContentViewList(Integer userId) {
 		List<ContentView> contentViewList = new ArrayList<>();
 		List<PostEx> postExList = postExBO.getPostList();
 		for (PostEx post : postExList) {
@@ -36,7 +36,9 @@ public class ContentBO {
 			// 댓글 리스트 등록
 			contentView.setCommentList(commentList);
 			// 내가 한 좋아요 등록
-			contentView.setLike(likeBO.existLike(post.getUserId(), post.getId()));
+			if (userId != null) {
+				contentView.setLike(likeBO.existLikeByUserIdAndPostId(userId, post.getId()));
+			}
 			// 좋아요 갯수
 			contentView.setLikeCnt(likeBO.getCntOfPostLike(post.getId()));
 			contentViewList.add(contentView);

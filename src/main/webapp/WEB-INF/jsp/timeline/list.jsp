@@ -37,11 +37,11 @@
 			<%-- 좋아요 --%>
 			<div class="heart d-flex m-2 align-items-center">
 				<div class="pr-2 pb-1">
-					<button type="button" class="btn btn-link p-0 likeToggleBtn">
-						<c:if test="${not contentView.like}">
+					<button type="button" class="btn btn-link p-0 likeToggleBtn" data-post-id="${contentView.post.id}">
+						<c:if test="${contentView.like eq false}">
 						<img src="/static/images/empty-heart-icon.png" width="20" alt="heartIcon">
 						</c:if>
-						<c:if test="${contentView.like}">
+						<c:if test="${contentView.like eq true}">
 						<img src="/static/images/filled-heart-icon.png" width="20" alt="heartIcon">
 						</c:if>
 					</button>
@@ -108,6 +108,7 @@
 			$('#fileName').text(fileName);
 		});
 		
+		// 파일 추가
 		$('#uploadBtn').on('click', function() {
 			let content = $('#content').val();
 			if (content == '') {
@@ -153,6 +154,7 @@
 			});
 		});
 		
+		// 댓글 추가
 		$('.commentAddBtn').on('click', function() {
 			let comment = $(this).siblings('input').val();
 			console.log(comment);
@@ -217,5 +219,29 @@
 				}
 			})
 		});
+		
+		// 좋아요 클릭
+		$('.likeToggleBtn').on('click', function() {
+			let postId = $(this).data('post-id');
+			
+			$.ajax({
+				type : 'post'
+				, url : '/like/' + postId
+				, data : {'postId' : postId}
+				, success : function(data) {
+					if (data.result == 'success') {
+						location.reload(true);
+					} else if (data.result == "notLogin") {
+						alert("로그인하고 댓글을 추가해주세요");
+					} else {
+						alert('다시 시도해주세요');
+					}
+				}
+				, error : function(e) {
+					alert('좋아요가 적용되지 않습니다. 관리자에게 문의해주세요');
+				}
+			})
+			
+		})
 	});
 </script>

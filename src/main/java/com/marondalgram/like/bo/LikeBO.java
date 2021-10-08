@@ -15,11 +15,19 @@ public class LikeBO {
 		return likeDAO.selectCntOfPostLike(postId);
 	}
 	
-	public boolean existLike(int userId, int postId) {
+	public boolean existLikeByUserIdAndPostId(int userId, int postId) {
 		return likeDAO.existLike(userId, postId);
 	}
 	
 	public void deleteLike(int postId) {
 		likeDAO.deleteLike(postId);
+	}
+	
+	public void toggleLike(int postId, int userId) {
+		if (existLikeByUserIdAndPostId(userId, postId)) {
+			likeDAO.deleteLikeByPostIdAndUserId(postId, userId);
+		} else {
+			likeDAO.insertLikeByPostIdAndUserId(postId, userId);
+		}
 	}
 }

@@ -28,4 +28,26 @@
 		WHERE
 			`postId` = ${postId}
 	</delete>
+	
+	<delete id="deleteLikeByPostIdAndUserId" parameterType="map">
+		DELETE
+		FROM
+			`like`
+		WHERE
+			`postId` = ${postId}
+			AND `userId` = ${userId}
+	</delete>
+	
+	<insert id="insertLikeByPostIdAndUserId" parameterType="map">
+		INSERT INTO `like`
+		(
+			`userId`
+			,`postId`
+		)
+		VALUES
+		(
+			#{userId}
+			,#{postId}
+		)
+	</insert>
 </mapper>

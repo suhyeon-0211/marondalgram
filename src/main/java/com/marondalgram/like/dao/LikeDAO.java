@@ -10,4 +10,12 @@ public interface LikeDAO {
 			@Param("userId") int userId,
 			@Param("postId") int postId);
 	public void deleteLike(int postId);
+	
+	public void deleteLikeByPostIdAndUserId(
+			@Param("postId") int postId,
+			@Param("userId") int userId);
+	
+	public void insertLikeByPostIdAndUserId(
+			@Param("postId") int postId,
+			@Param("userId") int userId);
 }

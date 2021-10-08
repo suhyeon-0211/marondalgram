@@ -13,7 +13,7 @@ public class ContentView {
 	private List<Comment> commentList;
 	
 	// 내가 한 좋아요
-	private boolean like;
+	private boolean like = false;
 	
 	// 좋아요 총 개수
 	private int likeCnt;
