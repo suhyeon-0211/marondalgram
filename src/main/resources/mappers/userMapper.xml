@@ -20,6 +20,7 @@
 			,`name`
 			,`nickname`
 			,`email`
+			,`profileImage`
 		)
 		VALUES
 		(
@@ -28,6 +29,7 @@
 			,#{name}
 			,#{nickname}
 			,#{email}
+			,#{profileImage}
 		)
 	</insert>
 	<select id="selectUserByLoginIdAndPassword" parameterType="map" resultType="com.marondalgram.user.model.User">

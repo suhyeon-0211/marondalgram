@@ -59,9 +59,16 @@
 			<%-- 댓글 --%>
 			<div class="comment_list border-bottom border-secondary p-2">
 				<c:forEach items="${contentView.commentList}" var="comment">
-				<div class="text-lowercase">
-					<strong>${comment.userNickname}</strong>
-					${comment.content}
+				<div class="d-flex align-items-center justify-content-between">
+					<div class="text-lowercase">
+						<strong>${comment.userNickname}</strong>
+						${comment.content}
+					</div>
+					<div>
+						<a href="#" class="comment-del-btn" data-post-id="${contentView.post.id}" data-comment-user-id="${comment.userId}" data-comment-id="${comment.id}">
+							<img src="/static/images/x-icon.png" width="20">
+						</a>
+					</div>
 				</div>
 				</c:forEach>
 			</div>
@@ -217,7 +224,7 @@
 				, error : function(e) {
 					alert('글이 삭제되지 않았습니다. 관리자에게 문의해주세요');
 				}
-			})
+			});
 		});
 		
 		// 좋아요 클릭
@@ -240,8 +247,31 @@
 				, error : function(e) {
 					alert('좋아요가 적용되지 않습니다. 관리자에게 문의해주세요');
 				}
-			})
+			});
+		});
+		
+		// 댓글 삭제
+		$('.comment-del-btn').on('click', function(e) {
+			e.preventDefault();
+			let postId = $(this).data('post-id');
+			let userId = $(this).data('comment-user-id');
+			let commentId = $(this).data('comment-id');
 			
+			$.ajax({
+				type: 'delete'
+				, url : '/comment/delete'
+				, data : {'postId' : postId, 'userId' : userId, 'commentId' : commentId}
+				, success : function(data) {
+					if (data.result == 'success') {
+						location.reload(true);
+					} else {
+						alert("본인의 댓글만 삭제할 수 있습니다.");
+					}
+				}
+				, error : function(e) {
+				 	alert('삭제할 수 없습니다. 관리자에게 문의해주세요');
+				}
+			});
 		})
 	});
 </script>

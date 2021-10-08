@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.marondalgram.common.EncryptUtils;
 import com.marondalgram.user.bo.UserBO;
@@ -38,6 +39,8 @@ public class UserRestController {
 		return result;
 	}
 	
+	
+	//TODO jsp에서 ajax까지해서 사진 파일 넘겼고 나머지 처리 하면 됨
 	/**
 	 * 회원가입
 	 * @param user
@@ -45,12 +48,13 @@ public class UserRestController {
 	 */
 	@PostMapping("/sign_up")
 	public Map<String, Object> signUp(
-			@ModelAttribute User user) {
+			@ModelAttribute User user,
+			@RequestParam("file") MultipartFile file) {
 		// password hashing
 		user.setPassword(EncryptUtils.md5(user.getPassword()));
 		
 		Map<String, Object> result = new HashMap<>();
-		int insertCnt = userBO.addUser(user);
+		int insertCnt = userBO.addUser(user, file);
 		if (insertCnt > 0) {
 			result.put("result", "success");
 		} else {

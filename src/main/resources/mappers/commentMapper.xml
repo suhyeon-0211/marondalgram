@@ -38,11 +38,21 @@
 		)
 	</insert>
 	
-	<delete id="deleteComment">
+	<delete id="deleteCommentByPostId">
 		DELETE
 		FROM
 			`comment`
 		WHERE
 			`postId` = ${postId}
+	</delete>
+	
+	<delete id="deleteCommentByPostIdAndUserId" parameterType="map">
+		DELETE
+		FROM
+			`comment`
+		WHERE
+			`postId` = ${postId}
+			AND `userId` = ${userId}
+			AND `id` = ${id}
 	</delete>
 </mapper>

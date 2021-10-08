@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.marondalgram.comment.bo.CommentBO;
 import com.marondalgram.common.FileManagerService;
+import com.marondalgram.like.bo.LikeBO;
 import com.marondalgram.postex.dao.PostExDAO;
 import com.marondalgram.postex.model.PostEx;
 
@@ -23,6 +25,12 @@ public class PostExBO {
 	
 	@Autowired
 	private FileManagerService fileManagerService;
+	
+	@Autowired
+	private CommentBO commentBO;
+	
+	@Autowired
+	private LikeBO likeBO;
 	
 	public List<PostEx> getPostList() {
 		return postExDAO.selectPostList();
@@ -45,6 +53,7 @@ public class PostExBO {
 	}
 	
 	public void deletePost(int postId) {
+		// 글 삭제 및 사진 파일 삭제
 		PostEx post = getPost(postId);
 		String imagePath = post.getImagePath();
 		if (imagePath != null) {
@@ -55,5 +64,11 @@ public class PostExBO {
 			}
 		}
 		postExDAO.deletePost(postId);
+		
+		// 댓글 삭제
+		commentBO.deleteCommentByPostId(postId);
+		
+		// 좋아요 삭제
+		likeBO.deleteLike(postId);
 	}
 }

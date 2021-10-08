@@ -35,11 +35,11 @@
 				class="form-control col-8 ml-3" id="email">
 		</div>
 		<div class="d-flex justify-content-between align-items-center pt-3">
-			<label for="profileImage">프로필 사진</label> <input type="text"
-				class="form-control col-8 ml-3" id="profileImage">
+			<label for="profileImage">프로필 사진</label> 
+			<input type="file" class="form-control col-8 ml-3 d-none" id="file" accept=".gif, .jpg, .jpeg, .png">
 		</div>
 		<div class="d-flex justify-content-end align-items-center pt-1">
-			<button type="button" class="btn btn-primary d-block">
+			<button type="button" class="btn btn-primary d-block" id="searchFileBtn">
 				<small>찾기</small>
 			</button>
 		</div>
@@ -49,6 +49,24 @@
 
 <script>
 	$(document).ready(function() {
+		$('#searchFileBtn').on('click', function(){
+			$('#file').click();
+		});
+		
+		$('#file').on('change', function() {
+			let file = $('#file').val();
+			if (file != '') {
+				let ext = file.split('.').pop().toLowerCase();
+				if ($.inArray(ext, ['jpg', 'png', 'jpeg', 'gif']) == -1) {
+					alert("이미지 파일만 업로드 할 수 있습니다.");
+					$('#file').val('');
+					$('#fileName').text('');
+					return;
+				}
+			}
+			$(this).removeClass('d-none');
+		});
+		
 		$('#isDuplicatedBtn').on('click', function() {
 			$('#idStatusArea').empty();
 			let loginId = $('#loginId').val().trim();
@@ -111,16 +129,32 @@
 				return;
 			}
 			
+			let file = $('#file').val();
+			if (file != '') {
+				let ext = file.split('.').pop().toLowerCase();
+				if ($.inArray(ext, ['jpg', 'png', 'jpeg', 'gif']) == -1) {
+					alert("이미지 파일만 업로드 할 수 있습니다.");
+					$('#file').val('');
+					$('#fileName').text('');
+					return;
+				}
+			}
+			
+			let formData = new FormData();
+			formData.append('loginId', loginId);
+			formData.append('password', password);
+			formData.append('name', name);
+			formData.append('nickname', nickname);
+			formData.append('email', email);
+			formData.append('file', $('#file')[0].files[0]);
+			
 			$.ajax({
 				type : 'post'
 				, url : '/user/sign_up'
-				, data : {
-					'loginId' : loginId
-					, 'password' : password
-					, 'name' : name
-					, 'nickname' : nickname
-					, 'email' : email
-				}
+				, data : formData
+				, enctype : 'multipart/form-data' // 파일 업로드 필수 설정
+				, processData : false // 파일 업로드 필수 설정
+				, contentType : false // 파일 업로드 필수 설정
 				, success : function(data) {
 					if (data.result == 'success') {
 						alert("가입을 환영합니다!!! 로그인 해주세요");

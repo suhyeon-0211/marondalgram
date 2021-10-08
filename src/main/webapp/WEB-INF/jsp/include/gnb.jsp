@@ -8,8 +8,11 @@
 	<div class="login-info d-flex align-items-center mr-4">
 		<%-- session 정보가 있는 경우에만 출력 --%>
 		<c:if test="${not empty userId}">
-			<%--<img src="/static/images/user.png" alt="profileImage" width="30px">--%>
+			<c:if test="${not empty userProfileImage }">
+			<img src="${userProfileImage}" alt="profileImage" width="30px" class="mr-3">
+			</c:if>
 			<span class="font-weight-bold">${userNickname}</span>
+			<a href="/user/user_update_view" class="font-weight-bold ml-3">회원정보 수정</a>
 			<a href="/user/sign_out" class="font-weight-bold ml-3">로그아웃</a>
 		</c:if>
 		<c:if test="${empty userId}">

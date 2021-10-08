@@ -3,13 +3,19 @@ package com.marondalgram.user;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.marondalgram.user.bo.UserBO;
+
 @Controller
 public class UserController {
 
+	@Autowired
+	private UserBO userBO;
+	
 	/**
 	 * 로그인 화면
 	 * @param model
@@ -45,5 +51,11 @@ public class UserController {
 		session.removeAttribute("userProfileImage");
 		session.removeAttribute("userNickName");
 		return "redirect:/timeline/list_view";
+	}
+	
+	@RequestMapping("/user/user_update_view")
+	public String userUpdate(Model model, HttpServletRequest request) {
+		model.addAttribute("viewName", "user/user_update_view");
+		return "template/layout";
 	}
 }

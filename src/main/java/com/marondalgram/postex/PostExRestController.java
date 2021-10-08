@@ -25,12 +25,6 @@ public class PostExRestController {
 	@Autowired
 	private PostExBO postExBO;
 	
-	@Autowired
-	private CommentBO commentBO;
-	
-	@Autowired
-	private LikeBO likeBO;
-	
 	@PostMapping("/create")
 	public Map<String, Object> postCreate(
 			@RequestParam("content") String content
@@ -63,8 +57,6 @@ public class PostExRestController {
 		Map<String, Object> result = new HashMap<>();
 		result.put("result", "fail");
 		postExBO.deletePost(postId);
-		commentBO.deleteComment(postId);
-		likeBO.deleteLike(postId);
 		
 		result.put("result", "success");
 		return result;
