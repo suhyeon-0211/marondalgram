@@ -97,6 +97,27 @@ public class UserRestController {
 			result.put("result", "fail");
 		}
 		return result;
+	}
+	
+	@PostMapping("/update")
+	public Map<String, Object> userUpdate(
+			@RequestParam("loginId") String loginId,
+			@RequestParam("password") String password,
+			@RequestParam("name") String name,
+			@RequestParam("nickname") String nickname,
+			@RequestParam("email") String email,
+			@RequestParam("file") MultipartFile file,
+			HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		int userId = (int) session.getAttribute("userId");
+		String ecryptPassword = EncryptUtils.md5(password);
+		userBO.updateUserByUserId(userId, loginId, ecryptPassword, name, nickname, email, file);
+		User user = userBO.getUserById(userId);
+		session.setAttribute("userProfileImage", user.getProfileImage());
+		Map<String, Object> result = new HashMap<>();
+		result.put("result", "success");
+		return result;
+		
 		
 	}
 }

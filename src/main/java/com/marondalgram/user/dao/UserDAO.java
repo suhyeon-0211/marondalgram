@@ -12,4 +12,13 @@ public interface UserDAO {
 	public User selectUserByLoginIdAndPassword(
 			@Param("loginId") String loginId,
 			@Param("password") String encryptPassword);
+	public User getUserById(int userId);
+	public void updateUserByUserId(
+			@Param("id") int id,
+			@Param("loginId") String loginId,
+			@Param("password") String ecryptPassword,
+			@Param("name") String name,
+			@Param("nickname") String nickname,
+			@Param("email") String email,
+			@Param("profileImage") String profileImage);
 }

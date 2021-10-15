@@ -49,4 +49,34 @@
 			`loginId` = #{loginId} AND `password` = #{password}
 	</select>
 	
+	<select id="getUserById" resultType="com.marondalgram.user.model.User">
+		SELECT
+			`id`
+			,`loginId`
+			,`password`
+			,`name`
+			,`nickname`
+			,`email`
+			,`profileImage`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`user`
+		WHERE
+			`id` = ${userId}
+	</select>
+	
+	<update id="updateUserByUserId" parameterType="map">
+		UPDATE `user`
+		SET
+			`loginId` = #{loginId}
+			,`password` = #{password}
+			,`name` = #{name}
+			,`nickname` = #{nickname}
+			,`email` = #{email}
+			,`profileImage` = #{profileImage}
+			,`updatedAt` = NOW()
+		WHERE
+			`id` = ${id}
+	</update>
 </mapper>

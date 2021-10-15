@@ -21,6 +21,7 @@
 			<div class="d-flex justify-content-between align-items-center">
 				<div class="pl-3">
 					<strong>${contentView.post.userNickname}</strong>
+					<button type="button" class="btn btn-dark ml-3 follow" data-post-user-id="${contentView.post.userId}">팔로우</button>
 				</div>
 				<div class="pr-2">
 					<button type="button" class="btn btn-link p-0 more-btn" data-target="#moreModal" data-post-id="${contentView.post.id}" data-login-user-id="${userId}" data-post-user-id="${contentView.post.userId}">
@@ -234,7 +235,6 @@
 			$.ajax({
 				type : 'post'
 				, url : '/like/' + postId
-				, data : {'postId' : postId}
 				, success : function(data) {
 					if (data.result == 'success') {
 						location.reload(true);
@@ -272,6 +272,28 @@
 				 	alert('삭제할 수 없습니다. 관리자에게 문의해주세요');
 				}
 			});
-		})
+		});
+		
+		// 팔로우
+		$('.follow').on('click', function(e) {
+			let targetId = $(this).data('post-user-id');
+			
+			$.ajax({
+				type: 'post'
+				, url : '/follow/' + targetId
+				, success : function(data) {
+					if (data.result == 'success') {
+						location.reload(true);
+					} else if (data.result == "notLogin") {
+						alert("로그인하고 댓글을 추가해주세요");
+					} else {
+						alert('다시 시도해주세요');
+					}
+				}
+				, error : function(e) {
+					alert('팔로우가 되지 않습니다. 관리자에게 문의해주세요');
+				}
+			});
+		});
 	});
 </script>

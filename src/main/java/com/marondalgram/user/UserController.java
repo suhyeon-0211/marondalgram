@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.marondalgram.user.bo.UserBO;
+import com.marondalgram.user.model.User;
 
 @Controller
 public class UserController {
@@ -55,6 +56,10 @@ public class UserController {
 	
 	@RequestMapping("/user/user_update_view")
 	public String userUpdate(Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		int userId = (int) session.getAttribute("userId");
+		User user = userBO.getUserById(userId);
+		model.addAttribute("user", user);
 		model.addAttribute("viewName", "user/user_update_view");
 		return "template/layout";
 	}
